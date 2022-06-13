@@ -1,12 +1,17 @@
-class PowerUpHealth : PowerUp
-{
-    public int healthBonus = 20;
+namespace Ball
+{ 
+    using UnityEngine;
 
-    protected override void PowerUpPayload()  // Пункт 1 контрольного списка
+    public class PowerUpHeal : PowerUp
     {
-        base.PowerUpPayload();
+        [SerializeField] private float _healthBonus = 20;
 
-        // Полезная нагрузка заключается в добавлении здоровья
-        _health.SetHealthAdjustment(healthBonus);      
+        protected override void PowerUpPayload() // Пункт 1 контрольного списка
+        {
+            base.PowerUpPayload();
+
+            // Полезная нагрузка заключается в добавлении здоровья
+            _unit.SetHealthAdjustment(_healthBonus);
+        }
     }
 }
