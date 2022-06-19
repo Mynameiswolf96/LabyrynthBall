@@ -13,7 +13,6 @@ namespace Ball
         [SerializeField] private float _maxHealth;
         [SerializeField] private Text _scorePointText;
         private float _curHealth;
-        private float _sliderValue;
         private int _pickupCoin;
         private int _scaleCoins;
         private float _deltaX, _deltaY;
@@ -21,7 +20,7 @@ namespace Ball
         private const string _horizontal = "Horizontal";
         private const string _vertical = "Vertical";
         private const string _jump = "Jump";
-
+        public static Action <float> OnHealthChanged;
         public static Action WinDelegate;
         public static Action LoseDelegate;
         private Rigidbody _rb;
@@ -42,30 +41,23 @@ namespace Ball
             {
                 _rigidbody.AddForce(Vector3.up * _jumpForce);
             }
-
-            _sliderValue = (_curHealth / _maxHealth);
-
         }
-        private void OnGUI()
-        {
-            _sliderValue = GUI.HorizontalSlider(new Rect(25, 25, 300, 60), _sliderValue, 0, 1);
-
-
-        }
+        
         public void SetHealthAdjustment(float adjustmentAmount)
         {
             _curHealth += adjustmentAmount;
-
             if (_curHealth > 10)
             {
                 _curHealth = 10;
             }
+            OnHealthChanged?.Invoke(_curHealth);
 
         }
 
         public void Hit(float damage)
         {
             _curHealth -= damage;
+            OnHealthChanged?.Invoke(_curHealth);
             if (_curHealth <= 0)
             {
                 Die();
@@ -96,8 +88,8 @@ namespace Ball
         {
             if (coin.tag == "Coin")
             {
-                _pickupCoin++;
-                //_scorePointText.text = _pickupCoin.ToString();
+                _pickupCoin++; 
+                _scorePointText.text = _pickupCoin.ToString();
                 Destroy(coin.gameObject);
             }
 

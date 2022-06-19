@@ -2,7 +2,7 @@ namespace Ball
 { 
     using UnityEngine;
 
-    public class PowerUpHeal : PowerUp
+    public class PowerUpHealth : PowerUp
     {
         [SerializeField] private float _healthBonus = 20;
 

@@ -21,7 +21,8 @@ namespace Ball
                 rig.AddForce(transform.up * _expHit, ForceMode.VelocityChange);
                 rig.AddForce(transform.forward * _expHit, ForceMode.VelocityChange);
             }
-            
+            Destroy(gameObject);
         }
+        
     }
 }
