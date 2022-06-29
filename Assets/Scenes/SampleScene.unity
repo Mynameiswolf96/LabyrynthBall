@@ -9816,6 +9816,7 @@ GameObject:
   - component: {fileID: 432185855}
   - component: {fileID: 432185857}
   - component: {fileID: 432185856}
+  - component: {fileID: 432185858}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -9889,6 +9890,19 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &432185858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432185854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db1c096fd2e1d645970b605141f3d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _searchSymbol: 105
 --- !u!1 &432418207
 GameObject:
   m_ObjectHideFlags: 0
