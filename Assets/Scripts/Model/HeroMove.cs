@@ -1,8 +1,7 @@
 using System;
-using Ball;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 namespace Ball
 {
@@ -18,19 +17,30 @@ namespace Ball
         private float _deltaX, _deltaY;
         private Rigidbody _rigidbody;
         private const string _horizontal = "Horizontal";
+        private const int _scoreWin = 5;
         private const string _vertical = "Vertical";
         private const string _jump = "Jump";
         public static Action <float> OnHealthChanged;
         public static Action WinDelegate;
         public static Action LoseDelegate;
         private Rigidbody _rb;
-
+        private SerializableXMLData<SaveData> _serializableXMLData = new SerializableXMLData<SaveData>();
+        private SaveData _saveData = new SaveData() { Name = "Bonus", Position = new Vector3(0,0,0) };
+        [SerializeField]private GameObject _gameObject;
+        
         private void Start()
         {
+        
             _rb = GetComponent<Rigidbody>();
             _curHealth = _maxHealth;
+            _saveData.Position = new Vector3(_gameObject.transform.position.x, _gameObject.transform.position.y, _gameObject.transform.position.z);
+            var path = Path.Combine(Application.streamingAssetsPath, "SerializableXMLSave.xml");
+            _serializableXMLData.Save(_saveData, path);
+            var save = _serializableXMLData.Load(path);
+            Debug.Log(save);
         }
 
+        
         private void FixedUpdate()
         {
             _deltaX = Input.GetAxis(_horizontal);
@@ -43,6 +53,7 @@ namespace Ball
             }
         }
         
+        
         public void SetHealthAdjustment(float adjustmentAmount)
         {
             _curHealth += adjustmentAmount;
@@ -54,6 +65,7 @@ namespace Ball
 
         }
 
+        
         public void Hit(float damage)
         {
             _curHealth -= damage;
@@ -64,6 +76,7 @@ namespace Ball
             }
         }
 
+        
         private void Die()
         {
             gameObject.SetActive(false);
@@ -78,12 +91,14 @@ namespace Ball
             }
         }
 
+        
         private void OnTriggerEnter(Collider other)
         {
             GetCoin(other.gameObject);
 
         }
 
+        
         public void GetCoin(GameObject coin)
         {
             if (coin.tag == "Coin")
@@ -93,7 +108,7 @@ namespace Ball
                 Destroy(coin.gameObject);
             }
 
-            if (_pickupCoin == 5)
+            if (_pickupCoin == _scoreWin )
             {
                 WinDelegate?.Invoke();
             }
