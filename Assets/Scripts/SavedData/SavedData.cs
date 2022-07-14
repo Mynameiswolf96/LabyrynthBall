@@ -6,7 +6,8 @@ public sealed class SaveData
 {
     public string Name;
     public Vector3Serializable Position;
-    public override string ToString() => $" (Name  {Name}, Position {Position} ";
+    public int NumbersOfWin;
+    public override string ToString() => $" (Name  {Name}, Position {Position},Win{NumbersOfWin} ";
 }
 
 [Serializable]

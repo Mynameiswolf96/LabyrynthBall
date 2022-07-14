@@ -14,6 +14,7 @@ namespace Ball
         private float _curHealth;
         private int _pickupCoin;
         private int _scaleCoins;
+        private int _numberOfWins;
         private float _deltaX, _deltaY;
         private Rigidbody _rigidbody;
         private const string _horizontal = "Horizontal";
@@ -25,7 +26,7 @@ namespace Ball
         public static Action LoseDelegate;
         private Rigidbody _rb;
         private SerializableXMLData<SaveData> _serializableXMLData = new SerializableXMLData<SaveData>();
-        private SaveData _saveData = new SaveData() { Name = "Bonus", Position = new Vector3(0,0,0) };
+        private SaveData _saveData = new SaveData() { Name = "Bonus", Position = new Vector3(0,0,0),NumbersOfWin=0 };
         [SerializeField]private GameObject _gameObject;
         
         private void Start()
@@ -35,7 +36,6 @@ namespace Ball
             _curHealth = _maxHealth;
             _saveData.Position = new Vector3(_gameObject.transform.position.x, _gameObject.transform.position.y, _gameObject.transform.position.z);
             var path = Path.Combine(Application.streamingAssetsPath, "SerializableXMLSave.xml");
-            _serializableXMLData.Save(_saveData, path);
             var save = _serializableXMLData.Load(path);
             Debug.Log(save);
         }
@@ -103,6 +103,9 @@ namespace Ball
         {
             if (coin.tag == "Coin")
             {
+                _numberOfWins++;
+                _saveData.NumbersOfWin = _numberOfWins;
+                
                 _pickupCoin++; 
                 _scorePointText.text = _pickupCoin.ToString();
                 Destroy(coin.gameObject);
